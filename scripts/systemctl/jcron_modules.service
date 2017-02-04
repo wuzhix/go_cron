@@ -1,0 +1,17 @@
+[Unit]
+Description=jcron_modules - jcron system
+Documentation=https://gitlab.juanpi.org/oa/jcron
+After=network.target remote-fs.target nss-lookup.target
+ 
+[Service]
+Type=simple
+PIDFile=/run/jcron_modules.pid
+# 工作目录
+WorkingDirectory=/data/go/src/jcron/modules
+ExecStart=/data/go/src/jcron/modules/modules
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s QUIT $MAINPID
+PrivateTmp=true
+ 
+[Install]
+WantedBy=multi-user.target

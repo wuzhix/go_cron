@@ -1,0 +1,13 @@
+{
+	"JobDb" : "Job",
+	"JobLogDb" : "JobLog",
+	"DbHost" : "localhost",
+	"DbPort" : "27017",
+	"JobCollection" : "job",
+	"JobSnapshotCollection" : "jobSnapshot",
+	"CurProcessCollection" : "curProcess",
+	"ErrLogCollection" : "errLog",
+	"ErrLogViewCollection" : "errLogView",
+	"OperateLogCollection" : "operateLog",
+	"JsonRpcPort" : "1234"
+}

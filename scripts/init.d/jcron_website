@@ -1,0 +1,63 @@
+#!/bin/sh
+#
+# task  go语言版的简化计划任务,web控制台
+#
+# description: go语言版的简化计划任务
+# chkconfig: 2345 70 30
+# processname: task
+
+# 导入公用函数
+. /etc/rc.d/init.d/functions
+
+progpath=/data/go/src/jcron/website
+prog=website
+lockfile=/data/lock/jcron/$prog
+pidfile=/data/run/jcron/website.pid
+logfile=/data/logs/jcron/website
+
+start() {
+	echo -n $"Starting $prog: "
+	cd $progpath
+	daemon --pidfile ${pidfile} ./$prog 1>> ${logfile}.log 2>> ${logfile}.err &
+	RETVAL=$?
+	echo 
+	[ $RETVAL -eq 0 ] && touch $lockfile
+	return $RERVAL
+
+}
+
+stop() {
+	echo -n $"Shutting down $prog: "
+	killproc $prog
+	RETVAL=$?
+        echo
+	[ $RETVAL -eq 0 ] && rm -f $lockfile
+	return $RETVAL
+}
+
+# See how we were called.
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  status)
+	status $prog
+	;;
+  restart|force-reload)
+	stop
+	start
+	;;
+  try-restart|condrestart)
+	if status $prog > /dev/null; then
+	    stop
+	    start
+	fi
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart|try-restart|force-reload}"
+	exit 2
+esac
+
